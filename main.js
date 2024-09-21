@@ -16,7 +16,7 @@ var controls;
 var gui;
 var path;
 // var cssRenderer;
-// var cssScene;
+// var cssScene;    
 var clock;
 var directionalLightHelper;
 var canChangeColor = true;
@@ -194,6 +194,22 @@ scene.add(outlineMesh);
 LoadText("GitHub", 2, 4, 12, 28, -10);
 LoadText("LinkedIn", 2, 4, -35, 28, -10);
 
+// border objelerı
+const bordergeometry = new THREE.BoxGeometry(1, 1, 1); // Küp boyutu
+const bordermaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5}); // Yarı saydam malzeme
+const LinkedInCube = new THREE.Mesh(bordergeometry, bordermaterial);
+LinkedInCube.position.set(0, 30, -50); // Küpün pozisyonu
+scene.add(LinkedInCube);
+
+const GitHubCube = new THREE.Mesh(bordergeometry,bordermaterial);
+GitHubCube.position.set(10, 30, -50); // Küpün pozisyonu
+scene.add(GitHubCube);
+
+// Küpü tıklanabilir hale getirmek için, gölge ve ışık özelliklerini kapatıyoruz
+LinkedInCube.castShadow = false;
+LinkedInCube.receiveShadow = false;
+LinkedInCube.visible = true;
+
 // DirectionalLight'ın renk animasyonu fonksiyonu
 function animateDirectionalLightColor(light, color,) {
     return gsap.to(light.color, {
@@ -201,9 +217,6 @@ function animateDirectionalLightColor(light, color,) {
         g: color.g / 255,
         b: color.b / 255,
         paused: true, // Animasyonu başta durdurulmuş halde bırakıyoruz
-        onComplete: () => {
-            canChangeColor = true;
-        }
     });
 }
 
@@ -223,28 +236,46 @@ function animateHemiLightIntensity(hemiLight, intensity,) {
     });
 }
 
+function animateSpotLightIntensity(spotLight, intensity, angle, penumbra) {
+    return gsap.to(spotLight, {
+        intensity: intensity,
+        angle: angle,
+        penumbra: penumbra,
+        ease: "bounce.out",
+        paused: true
+    })
+}
+
 // Renk animasyonu için renk ve süre belirleme
 let colorAnim1 = animateDirectionalLightColor(directionalLight, { r: 242, g: 159, b: 5 });
 let colorAnim2 = animateDirectionalLightColor(directionalLight, { r: 168, g: 47, b: 1 });
-let colorAnim3 = animateDirectionalLightColor(directionalLight, { r: 242, g: 159, b: 5 });
-let colorAnim4 = animateDirectionalLightColor(directionalLight, { r: 242, g: 159, b: 5 });
+let colorAnim3 = animateDirectionalLightColor(directionalLight, { r: 0, g: 0, b: 0 });
+let colorAnim4 = animateDirectionalLightColor(directionalLight, { r: 168, g: 47, b: 1 });
 
 // Yoğunluk animasyonu için hedef yoğunluk ve süre belirleme
-let intensityAnim1 = animateDirectionalLightIntensity(directionalLight, 2.5,);
-let intensityAnim2 = animateDirectionalLightIntensity(directionalLight, 2.5,);
-let intensityAnim3 = animateDirectionalLightIntensity(directionalLight, 2.5,);
-let intensityAnim4 = animateDirectionalLightIntensity(directionalLight, 2.5,);
+let intensityAnim1 = animateDirectionalLightIntensity(directionalLight, 7,);
+let intensityAnim2 = animateDirectionalLightIntensity(directionalLight, 5,);
+let intensityAnim3 = animateDirectionalLightIntensity(directionalLight, 3,);
+let intensityAnim4 = animateDirectionalLightIntensity(directionalLight, 5,);
 
 
 // Hemisphere ışığı için yoğunluk animasyonu
 let hemiLightAnim1 = animateHemiLightIntensity(hemiLight, 0.75,);
-let hemiLightAnim2 = animateHemiLightIntensity(hemiLight, 0.75,);
-let hemiLightAnim3 = animateHemiLightIntensity(hemiLight, 0.75,);
-let hemiLightAnim4 = animateHemiLightIntensity(hemiLight, 0.75,);
+let hemiLightAnim2 = animateHemiLightIntensity(hemiLight, 0.5,);
+let hemiLightAnim3 = animateHemiLightIntensity(hemiLight, 0.2,);
+let hemiLightAnim4 = animateHemiLightIntensity(hemiLight, 0.5,);
+
+let spotLightAnim1 = animateSpotLightIntensity(deskSpotLight, 0, 0, 1);
+let spotLightAnim2 = animateSpotLightIntensity(deskSpotLight, 0, 0, 1);
+let spotLightAnim3 = animateSpotLightIntensity(deskSpotLight, 1000, 0.5, 0.1);
+let spotLightAnim4 = animateSpotLightIntensity(deskSpotLight, 0, 0, 1);
+
 
 Update();
 
 function Update() {
+    console.log(deskSpotLight.intensity);
+    // console.log(colorAnim2.progress());
     directionalLightHelper.update();
     deskSpotLightHelper.update();
 
@@ -258,17 +289,47 @@ function Update() {
     const pos = path.getPointAt(t);
     scene.getObjectByName("directionalLight").position.copy(pos);
     
-    console.log(canChangeColor); 
     // console.log(directionalLight.intensity);
-    if (t < 0.25 && canChangeColor) {
-        canChangeColor = false;
+    if (t < 0.25) {
         const progress = t / 0.25;  // 0 ile 0.25 arasındaki t'yi normalize et
 
         // GSAP animasyonlarını manuel olarak ilerlet
         colorAnim1.progress(progress); 
         intensityAnim1.progress(progress); 
         hemiLightAnim1.progress(progress); 
+        spotLightAnim1.progress(progress);
     }
+    else if(t < 0.5) {
+        const progress = (t - 0.25) / 0.25;  // 0 ile 0.25 arasındaki t'yi normalize et
+
+        // GSAP animasyonlarını manuel olarak ilerlet
+        colorAnim2.progress(progress); 
+        intensityAnim2.progress(progress); 
+        hemiLightAnim2.progress(progress); 
+        spotLightAnim2.progress(progress);
+
+    }
+    else if(t < 0.75) {
+        const progress = (t - 0.5) / 0.25;  // 0 ile 0.25 arasındaki t'yi normalize et
+
+        // GSAP animasyonlarını manuel olarak ilerlet
+        colorAnim3.progress(progress); 
+        intensityAnim3.progress(progress); 
+        hemiLightAnim3.progress(progress); 
+        spotLightAnim3.progress(progress);
+
+    }
+    else{
+        const progress = (t - 0.75) / 0.25;  // 0 ile 0.25 arasındaki t'yi normalize et
+
+        // GSAP animasyonlarını manuel olarak ilerlet
+        colorAnim4.progress(progress); 
+        intensityAnim4.progress(progress); 
+        hemiLightAnim4.progress(progress); 
+        spotLightAnim4.progress(progress);
+
+    }
+    
 
 
 
@@ -428,7 +489,7 @@ function createAmbientLightSource() {
     // scene.add(roomAmbientLight);
 }
 function createDirectionalLight(name) {
-    directionalLight = new THREE.DirectionalLight(0xffa95c, 10);
+    directionalLight = new THREE.DirectionalLight(0xffa95c, 5);
     directionalLight.castShadow = true;
     directionalLight.shadow.bias = -0.0001;
     directionalLight.shadow.mapSize.width = 1024 * 4;
@@ -452,7 +513,7 @@ function createDirectionalLight(name) {
     gui.add(directionalLight.position, "z", -100, 100).step(0.1);
 
     directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight);
-    // scene.add(directionalLightHelper)
+    scene.add(directionalLightHelper)
     var shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
     // scene.add(shadowCameraHelper);
     scene.add(directionalLight);
@@ -492,14 +553,14 @@ function createHemiLight() {
     scene.add(hemiLight);
 }
 function createSpotLight() {
-    var spotLight = new THREE.SpotLight(0xffa95c,1000);  // Işık rengi ve yoğunluk
+    var spotLight = new THREE.SpotLight(0xFF9800, 0);  // Işık rengi ve yoğunluk
     spotLight.castShadow = true;
 
     // Spot ışığı ayarları
     spotLight.angle = Math.PI / 6;  // Koninin genişliği (ışığın yayılma açısı)
     spotLight.penumbra = 0.1;       // Yumuşak kenar (0 = keskin, 1 = çok yumuşak)
     spotLight.decay = 2;            // Mesafeye bağlı parlaklık düşüşü
-    spotLight.distance = 200;       // Işığın etkili olduğu mesafe
+    spotLight.distance = 20;       // Işığın etkili olduğu mesafe
     spotLight.position.set(18, 19, -53);  // Işığın pozisyonu
 
     spotLight.shadow.mapSize.width = 1024 * 2;  // Gölge çözünürlüğü
@@ -532,7 +593,7 @@ function createSpotLight() {
 
     // SpotLight için helper (görsel rehber)
     deskSpotLightHelper = new THREE.SpotLightHelper(spotLight);
-    scene.add(deskSpotLightHelper);
+    // scene.add(deskSpotLightHelper);
 
     // Spot ışığını sahneye ekle
     scene.add(spotLight);
