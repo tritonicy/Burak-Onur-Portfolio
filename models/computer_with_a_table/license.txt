@@ -1,0 +1,11 @@
+Model Information:
+* title:	Computer with a table
+* source:	https://sketchfab.com/3d-models/computer-with-a-table-18d72aaaa6db47cdbff129b30114d33e
+* author:	youssef-hamdan (https://sketchfab.com/youssef-hamdan)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Computer with a table" (https://sketchfab.com/3d-models/computer-with-a-table-18d72aaaa6db47cdbff129b30114d33e) by youssef-hamdan (https://sketchfab.com/youssef-hamdan) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

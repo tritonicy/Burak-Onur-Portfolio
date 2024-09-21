@@ -1,0 +1,8 @@
+Model Information:
+* title:	Kitchen Model
+* source:	https://sketchfab.com/3d-models/kitchen-model-619862462bb9471282314af19669690f
+* author:	META ART (https://sketchfab.com/devloperakshay1993)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
