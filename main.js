@@ -3,10 +3,18 @@ import { GUI } from 'dat.gui';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { step } from 'three/webgpu';
+import { InstancedMesh, step } from 'three/webgpu';
 import gsap from 'gsap';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry} from 'three/addons/geometries/TextGeometry.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 
 
 var renderer;
@@ -70,22 +78,7 @@ window.addEventListener("resize", function () {
     camera.aspect = this.window.innerWidth / this.window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(this.window.innerWidth, this.window.innerHeight);
-    // cssRenderer.setSize(window.innerWidth, window.innerHeight);
 });
-// // oda modeli
-// loadModel('models/computer_with_a_table/scene.gltf', function (model) {
-//     model.scale.set(15, 15, 15);
-//     model.position.set(0, 0, 5);
-//     model.rotation.y = Math.PI;
-//     console.log(model);
-// });
-// // window modeli
-// loadModel('models/window/scene.gltf', function (model) {
-//     model.scale.set(0.3, 0.3, 0.3);
-//     model.position.set(3, 15, -17);
-//     model.rotation.y = -Math.PI / 2;
-//     console.log(model);
-// });
 
 // scene modeli
 loadModel('models/10/untitled.gltf', function (model) {
@@ -99,21 +92,13 @@ loadModel('models/10/untitled.gltf', function (model) {
 createBox("box1", 1, 1, 1, 0, 20, -60, function (mesh) {
     mesh.visible = false;
 });
-// duvarlar
-// createBox("wall", 31, 40, 2, -22, 23, -10);
-// createBox("wall", 31, 40, 2, 23, 23, -10);
-// createBox("wall", 20, 10, 2, 0, 45, -10);
-// createBox("wall", 20, 20, 2, 0, 11, -10);
-// createBox("wall", 80, 2, 80, 0, 43, 30)
-
-
 createHemiLight();
 createDirectionalLight("directionalLight");
 // roomPointLight = createPointLightSource();
 // createAmbientLightSource();
 deskSpotLight = createSpotLight();
 
-// controls = new OrbitControls(camera, renderer.domElement)
+//c ontrols = new OrbitControls(camera, renderer.domElement)
 
 
 camera.position.x = -10;
@@ -146,26 +131,6 @@ scene.add(pathObject);
 
 clock = new THREE.Clock();
 
-// // CSS3D Renderer
-// cssRenderer = new CSS3DRenderer();
-// cssRenderer.setSize(window.innerWidth, window.innerHeight);
-// cssRenderer.domElement.style.position = 'absolute';
-// cssRenderer.domElement.style.top = '0';
-// document.body.appendChild(cssRenderer.domElement);
-
-// cssScene = new THREE.Scene();
-
-// // Add an iframe as a CSS3DObject
-// const iframe = document.createElement('iframe');
-// iframe.src = 'pages/index.html';
-// iframe.style.width = '100%'; // Set width to 100%
-// iframe.style.height = '100%'; // Set height to 100%
-// iframe.style.border = 'none'; // Optional: Remove border
-
-// const cssObject = new CSS3DObject(iframe);
-// cssObject.position.set(-20, 10, -200); // Adjust position as needed
-// cssObject.scale.set(0.03,0.03,0.03)
-// cssScene.add(cssObject);
 
 const textureLoader = new THREE.TextureLoader();
 const texture = textureLoader.load('pages/img/Screenshot_4.png');
@@ -191,24 +156,41 @@ outlineMesh.rotation.y  = Math.PI;
 outlineMesh.scale.set(1.01,1.01,1.01); // Slightly larger scale to create the outline effect
 scene.add(outlineMesh);
 
-LoadText("GitHub", 2, 4, 12, 28, -10);
-LoadText("LinkedIn", 2, 4, -35, 28, -10);
+LoadText("GitHub", 0.5, 3.5, 24.5, 31, -55);
+LoadText("LinkedIn", 0.5, 3.5, 24.5, 25, -55);
+LoadText('Itch.io', 0.5, 3.5, 24.5, 19, -55);
 
 // border objelerı
-const bordergeometry = new THREE.BoxGeometry(1, 1, 1); // Küp boyutu
-const bordermaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.5}); // Yarı saydam malzeme
-const LinkedInCube = new THREE.Mesh(bordergeometry, bordermaterial);
-LinkedInCube.position.set(0, 30, -50); // Küpün pozisyonu
-scene.add(LinkedInCube);
+const bordergeometry = new THREE.BoxGeometry(3, 5, 22); // Küp boyutu
+const bordermaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0}); // Yarı saydam malzeme
 
 const GitHubCube = new THREE.Mesh(bordergeometry,bordermaterial);
-GitHubCube.position.set(10, 30, -50); // Küpün pozisyonu
+GitHubCube.position.set(24.5, 33, -45); // Küpün pozisyonu
+GitHubCube.name = 'githubCube';
 scene.add(GitHubCube);
+
+const LinkedInCube = new THREE.Mesh(bordergeometry, bordermaterial);
+LinkedInCube.position.set(24.5, 27, -45); // Küpün pozisyonu
+LinkedInCube.name = 'linkedinCube';
+scene.add(LinkedInCube);
+
+const itchioCube = new THREE.Mesh(bordergeometry,bordermaterial);
+itchioCube.position.set(24.5, 21, -45); // Küpün pozisyonu
+itchioCube.name = 'itchioCube';
+scene.add(itchioCube);
 
 // Küpü tıklanabilir hale getirmek için, gölge ve ışık özelliklerini kapatıyoruz
 LinkedInCube.castShadow = false;
 LinkedInCube.receiveShadow = false;
 LinkedInCube.visible = true;
+
+GitHubCube.castShadow = false;
+GitHubCube.receiveShadow = false;
+GitHubCube.visible = true;
+
+itchioCube.castShadow = false;
+itchioCube.receiveShadow = false;
+itchioCube.visible = true;
 
 // DirectionalLight'ın renk animasyonu fonksiyonu
 function animateDirectionalLightColor(light, color,) {
@@ -270,18 +252,39 @@ let spotLightAnim2 = animateSpotLightIntensity(deskSpotLight, 0, 0, 1);
 let spotLightAnim3 = animateSpotLightIntensity(deskSpotLight, 1000, 0.5, 0.1);
 let spotLightAnim4 = animateSpotLightIntensity(deskSpotLight, 0, 0, 1);
 
+// buradan sonrası post processing
+const composer = new EffectComposer( renderer );
+
+const renderPass = new RenderPass( scene, camera );
+composer.addPass( renderPass );
+
+// Bloom efekti ekle
+const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(window.innerWidth, window.innerHeight), // Ekran çözünürlüğü
+    0.4,  // Bloom yoğunluğu
+    0.4,  // Bloom radius
+    0.5  // Bloom threshold
+);
+composer.addPass(bloomPass);
+
+
+const fxaaPass = new ShaderPass(FXAAShader);
+fxaaPass.material.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
+composer.addPass(fxaaPass);
+
+const outputPass = new OutputPass();
+composer.addPass( outputPass );
+
 
 Update();
 
 function Update() {
-    console.log(deskSpotLight.intensity);
-    // console.log(colorAnim2.progress());
     directionalLightHelper.update();
     deskSpotLightHelper.update();
 
     scene.getObjectByName("directionalLight").target = scene.getObjectByName("box1");
     // cssRenderer.render(cssScene, camera);
-    renderer.render(scene, camera);
+    composer.render();
     // controls.update();
     // console.log(camera.position);
     // console.log(camera.rotation);
@@ -329,71 +332,6 @@ function Update() {
         spotLightAnim4.progress(progress);
 
     }
-    
-
-
-
-
-    // else if (t < 0.5 && canChangeColor) {
-    //     canChangeColor = false;
-    //     gsap.to(directionalLight.color, {
-    //         r: 168,
-    //         g: 47,
-    //         b: 1,
-    //         duration: 5.1,
-    //         onComplete: (() => {
-    //             canChangeColor = true;
-    //         })
-    //     })
-    //     gsap.to(directionalLight, {
-    //         intensity: 1.25,
-    //         duration: 5.1
-    //     })
-    //     gsap.to(hemiLight, {
-    //         intensity: 0.5,
-    //         duration:5.1
-    //     })
-    // } else if (t < 0.75 && canChangeColor) {
-    //     canChangeColor = false;
-    //     gsap.to(directionalLight.color, {
-    //         r: 0,
-    //         g: 0,
-    //         b: 0,
-    //         duration: 5.1,
-    //         onComplete: (() => {
-    //             canChangeColor = true;
-    //         })
-    //     })
-    //     gsap.to(directionalLight, {
-    //         intensity: 0,
-    //         duration: 5.1
-    //     })
-    //     gsap.to(hemiLight, {
-    //         intensity: 0.25,
-    //         duration:5.1
-    //     })
-    // } else if (canChangeColor) {
-    //     canChangeColor = false;
-    //     gsap.to(directionalLight.color, {
-    //         r: 168,
-    //         g: 47,
-    //         b: 1,
-    //         duration: 5.1,
-    //         onComplete: (() => {
-    //             canChangeColor = true;
-    //         })
-    //     })
-    //     gsap.to(directionalLight, {
-    //         intensity: 1.25,
-    //         duration: 5.1
-    //     })
-    //     gsap.to(hemiLight, {
-    //         intensity: 0.5,
-    //         duration:5.1
-    //     })
-    // }
-
-
     requestAnimationFrame(Update);
 
 }
@@ -409,10 +347,22 @@ function onMouseDown(event) {
 
         var intersects = raycaster.intersectObjects(scene.children, true);
         if (intersects.length > 0) {
-            if(intersects[0].object.name == "htmlPlane" && canMoveCamera && isCameraBase) {
-                canShowOutline = false;
-                canMoveCamera = false;
-                moveCameratoScreen();
+            if(canMoveCamera && isCameraBase) {
+                if(intersects[0].object.name == "htmlPlane") {
+                    canShowOutline = false;
+                    canMoveCamera = false;
+                    moveCameratoScreen();
+                }
+                else if(intersects[0].object.name == "githubCube") {
+                    const url = 'https://github.com/tritonicy';
+                    window.open(url);
+                } else if(intersects[0].object.name == "linkedinCube") {
+                    const url = 'https://www.linkedin.com/in/burak-onur-siluşu-87a786258/';
+                    window.open(url);
+                } else if (intersects[0].object.name == "itchioCube") {
+                    const url = 'https://tritonicy.itch.io';
+                    window.open(url);
+                }
             }
             else if(canMoveCamera && !isCameraBase) {
                 canMoveCamera = false;
@@ -662,12 +612,21 @@ function LoadText(text, height, size, x,y,z) {
             curveSegments: 12,
             bevelEnabled: true,      // Adds a bevel to the text
             bevelThickness: 0.5,     // Thickness of the bevel
-            bevelSize: 0.2,          // How far the bevel reaches inside the text
+            bevelSize: 0.2,       // How far the bevel reaches inside the text
         });
-        const textureMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 })
+        const textureMaterial = new THREE.MeshStandardMaterial({
+            color: 0x6B8E23,
+            roughness: 0.2, // Daha mat bir görünüm için
+            metalness: 0.8, // Metalik görünümü azaltın   
+            emissive: 0xFFD700,   // Metnin yaydığı ışığı kontrol eder, düşük tutarak parlaklığı azaltabilirsin
+            emissiveIntensity: 0.01 // Emissive etkisini daha az belirgin yapar
+        })
         const textMesh = new THREE.Mesh(textGeometry, textureMaterial);
         textMesh.position.set(x,y,z);
         textMesh.name = text;
+        textMesh.rotation.y = -Math.PI / 2;
+        textMesh.castShadow = true;
+        textMesh.receiveShadow = true;
         scene.add(textMesh);
     })
 }
