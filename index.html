@@ -4,15 +4,38 @@
 <head>
 	<meta charset="utf-8">
 	<title>My first three.js app</title>
-	<style rel="stylesheet" hre="style.css">
-		body {
-			margin: 0;
-		}
-	</style>
+	<link rel="stylesheet" href="reset.css">
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+	<div class="main-container">
+		<section class="overlay">
+			<div>
+				<ul class="buttons">
+					<li class="about-me">
+						<div id="about-me-img"></div>
+						<p id="about-me-p">About Me</p>
+					</li>
+					<li class="github">
+						<div id="github-img"></div>
+						<p id="github-p">GitHub</p>
+					</li>
+					<li class="linkedin">
+						<div id="linkedin-img"></div>
+						<p id="linkedin-p">LinkedIn</p>
+					</li>
+					<li class="itchio">
+						<div id="itchio-img"></div>
+						<p id="itchio-p">ItchIo</p>
+					</li>
+				</ul>
+			</div>
+		</section>
+		<div id="container"></div>
+	</div>
 	<script type="module" src="/main.js"></script>
 </body>
+
 
 </html>

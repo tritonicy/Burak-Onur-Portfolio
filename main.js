@@ -3,7 +3,7 @@ import { GUI } from 'dat.gui';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { InstancedMesh, step } from 'three/webgpu';
+import { InstancedMesh, SpotLightHelper, step } from 'three/webgpu';
 import gsap from 'gsap';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry} from 'three/addons/geometries/TextGeometry.js';
@@ -11,23 +11,28 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { BokehShader } from 'three/examples/jsm/shaders/BokehShader.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import { SSAARenderPass } from 'three/examples/jsm/postprocessing/SSAARenderPass.js';
+import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js';
 
 
 var renderer;
 var scene;
 var camera;
 var controls;
-var gui;
+// var gui;
 var path;
 // var cssRenderer;
 // var cssScene;    
 var clock;
 var directionalLightHelper;
 var canChangeColor = true;
+var lockSpotlight1 = false;
+
 var canMoveCamera = true;
 var canShowOutline = true;
 var isCameraBase = true;
@@ -35,6 +40,7 @@ var roomAmbientLight;
 var directionalLight;
 var hemiLight;
 var deskSpotLight;
+var highlightSpotLight;
 var deskSpotLightHelper;
 var directionalLightColor = {
     color: 0xffffff
@@ -49,9 +55,39 @@ var roomPointLight;
 var roomPointLightColor = {
     color: 0xffffff
 }
+// Her bir li elemanını seçiyoruz
+const aboutMe = document.querySelector('.about-me');
+const github = document.querySelector('.github');
+const linkedin = document.querySelector('.linkedin');
+const itchio = document.querySelector('.itchio');
 
+// Tıklama olaylarını dinliyoruz
+aboutMe.addEventListener('click', () => {
+    spotlight1.visible = true;
+    lockSpotlight1 = true;
+    canShowOutline = false;
+    canMoveCamera = false;
+    moveCameratoScreen();
+});
+
+github.addEventListener('click', () => {
+    const url = 'https://github.com/tritonicy';
+    window.open(url);
+});
+
+linkedin.addEventListener('click', () => {
+    const url = 'https://www.linkedin.com/in/burak-onur-siluşu-87a786258/';
+    window.open(url);
+});
+
+itchio.addEventListener('click', () => {
+    const url = 'https://tritonicy.itch.io';
+    window.open(url);
+});
+
+const container = document.getElementById("container");
 // gui ve scene
-gui = new GUI();
+// gui = new GUI();
 scene = new THREE.Scene();
 scene.background = new THREE.Color(0x404d55);
 // axes helper
@@ -63,14 +99,14 @@ var backgroundColor = {
 };
 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 // renderer ayarlari
-renderer = new THREE.WebGLRenderer({ physicallyCorrectLights: true, antialias: true, powerPreference: "high-performance", alpha: true });
+renderer = new THREE.WebGLRenderer({ physicallyCorrectLights: true, antialias: false, powerPreference: "high-performance", alpha: true });
 renderer.shadowMap.enabled = true;
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.toneMapping = THREE.ReinhardToneMapping;
-renderer.toneMappingExposure = 1;
+renderer.toneMapping = THREE.CineonToneMapping;
+renderer.toneMappingExposure = 1.5;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-document.body.appendChild(renderer.domElement);
+container.appendChild(renderer.domElement);
 
 window.addEventListener("mousedown", onMouseDown);
 window.addEventListener("mousemove", onMouseMove);
@@ -81,7 +117,7 @@ window.addEventListener("resize", function () {
 });
 
 // scene modeli
-loadModel('models/10/untitled.gltf', function (model) {
+loadModel('models/12/untitled.gltf', function (model) {
     model.scale.set(5,5,5);
     model.position.set(0, 0, 5);
     model.rotation.y = - Math.PI/2;
@@ -94,11 +130,100 @@ createBox("box1", 1, 1, 1, 0, 20, -60, function (mesh) {
 });
 createHemiLight();
 createDirectionalLight("directionalLight");
+directionalLight.color.setRGB(168 / 255, 47 / 255, 1 / 255);
 // roomPointLight = createPointLightSource();
 // createAmbientLightSource();
-deskSpotLight = createSpotLight();
 
-//c ontrols = new OrbitControls(camera, renderer.domElement)
+// Işık hedefi (nereye yönlenecek)
+var deskSpotLightTarget = new THREE.Object3D();
+deskSpotLightTarget.position.set(-100, -50.6, 0);  // Hedef pozisyonu
+scene.add(deskSpotLightTarget);
+deskSpotLight = createSpotLight("deskspotlight", deskSpotLightTarget);
+deskSpotLight.target = deskSpotLightTarget;    // SpotLight'ı hedefe yönlendir
+deskSpotLight.position.set(18, 19, -53);
+
+deskSpotLightHelper = new THREE.SpotLightHelper(deskSpotLight);
+// scene.add(deskSpotLightHelper);
+
+var highlightSpotLightTarget = new THREE.Object3D();
+highlightSpotLightTarget.position.set(60, 4.6, -69);  // Hedef pozisyonu
+scene.add(highlightSpotLightTarget);
+highlightSpotLight = createSpotLight("highlightspotlight",highlightSpotLightTarget);
+highlightSpotLight.target = highlightSpotLightTarget;     // SpotLight'ı hedefe yönlendir
+highlightSpotLight.position.set(-15.3,31,-30.7);
+var highlightSpotLighthelper = new THREE.SpotLightHelper(highlightSpotLight);
+// scene.add(highlightSpotLighthelper)
+highlightSpotLight.distance = 200;
+highlightSpotLight.penumbra = 1;
+highlightSpotLight.intensity = 1500;
+
+
+var spotlight1Target = new THREE.Object3D();
+spotlight1Target.position.set(15.6, 2.4, -69);  // Hedef pozisyonu
+scene.add(spotlight1Target);
+const spotlight1 = createSpotLight("spotlight1", spotlight1Target);
+spotlight1.target = spotlight1Target;     // SpotLight'ı hedefe yönlendir
+var spotlight1Helper = new THREE.SpotLightHelper(spotlight1);
+// scene.add(spotlight1Helper);
+spotlight1.distance = 20;
+spotlight1.color = new THREE.Color(0xffffff);
+spotlight1.angle = Math.PI / 6;
+spotlight1.penumbra = 1;
+spotlight1.intensity = 200;
+spotlight1.position.set(0.2,24.4,-41.8);
+spotlight1.visible = false;
+
+
+var spotlight2Target = new THREE.Object3D();
+spotlight2Target.position.set(66.3, 26.6, 100);  // Hedef pozisyonu
+scene.add(spotlight2Target);
+const spotlight2 = createSpotLight("spotlight2", spotlight2Target);
+spotlight2.target = spotlight2Target;     // SpotLight'ı hedefe yönlendir
+var spotlight2Helper = new THREE.SpotLightHelper(spotlight2);
+// scene.add(spotlight2Helper);
+spotlight2.distance = 100;
+spotlight2.color = new THREE.Color(0xFF1493);
+spotlight2.angle = Math.PI / 12;
+spotlight2.penumbra = 0.2;
+spotlight2.intensity = 2000;
+spotlight2.position.set(20,33.2,-61.6);
+spotlight2.visible = false;
+
+
+var spotlight3Target = new THREE.Object3D();
+spotlight3Target.position.set(66.3, 20.6, 100);  // Hedef pozisyonu
+scene.add(spotlight3Target);
+const spotlight3 = createSpotLight("spotlight3", spotlight3Target);
+spotlight3.target = spotlight3Target;     // SpotLight'ı hedefe yönlendir
+var spotlight3Helper = new THREE.SpotLightHelper(spotlight3);
+// scene.add(spotlight3Helper);
+spotlight3.distance = 100;
+spotlight3.color = new THREE.Color(0xFF1493);
+spotlight3.angle = Math.PI / 12;
+spotlight3.penumbra = 0.2;
+spotlight3.intensity = 2000;
+spotlight3.position.set(20,27.2,-61.6);
+spotlight3.visible = false;
+
+
+var spotlight4Target = new THREE.Object3D();
+spotlight4Target.position.set(66.3, 14.6, 100);  // Hedef pozisyonu
+scene.add(spotlight4Target);
+const spotlight4 = createSpotLight("spotlight4", spotlight4Target);
+spotlight4.target = spotlight4Target;     // SpotLight'ı hedefe yönlendir
+var spotlight4Helper = new THREE.SpotLightHelper(spotlight4);
+// scene.add(spotlight4Helper);
+spotlight4.distance = 100;
+spotlight4.color = new THREE.Color(0xFF1493);
+spotlight4.angle = Math.PI / 12;
+spotlight4.penumbra = 0.2;
+spotlight4.intensity = 2000;
+spotlight4.position.set(20,21.2,-61.6);
+spotlight4.visible = false;
+
+
+
+// controls = new OrbitControls(camera, renderer.domElement)
 
 
 camera.position.x = -10;
@@ -109,11 +234,11 @@ camera.rotateY(-0.676929803659473);
 camera.rotateZ(-0.15278183692610087);
 
 
-var cameraFolder = gui.addFolder("Background color");
+// var cameraFolder = gui.addFolder("Background color");
 
-cameraFolder.addColor(backgroundColor, 'modelColor').onChange(function (colorval) {
-    scene.background = new THREE.Color(colorval);
-})
+// cameraFolder.addColor(backgroundColor, 'modelColor').onChange(function (colorval) {
+//     scene.background = new THREE.Color(colorval);
+// })
 
 const points = [
     new THREE.Vector3(30, 35, -90),
@@ -127,6 +252,7 @@ path = new THREE.CatmullRomCurve3(points, true);
 const pathGeo = new THREE.BufferGeometry().setFromPoints(path.getPoints(50));
 const pathMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
 const pathObject = new THREE.Line(pathGeo, pathMaterial);
+pathObject.visible = false;
 scene.add(pathObject);
 
 clock = new THREE.Clock();
@@ -256,43 +382,73 @@ let spotLightAnim4 = animateSpotLightIntensity(deskSpotLight, 0, 0, 1);
 const composer = new EffectComposer( renderer );
 
 const renderPass = new RenderPass( scene, camera );
-composer.addPass( renderPass );
+
+
+// SSAA Render Pass oluşturun
+const ssaaRenderPass = new SSAARenderPass(scene, camera, 0x000000, 0);
+// Örnekleme seviyesini ayarlayın
+ssaaRenderPass.sampleLevel = 2; // SSAA örnekleme seviyesi (daha yüksek değerler daha kaliteli ama daha yavaş)
+// sampleLevel = 2 veya 4 tipik değerlerdir, ancak 8 ve 16 gibi daha yüksek değerler kaliteyi artırabilir.
+
 
 // Bloom efekti ekle
 const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(window.innerWidth, window.innerHeight), // Ekran çözünürlüğü
-    0.4,  // Bloom yoğunluğu
-    0.4,  // Bloom radius
-    0.5  // Bloom threshold
+    0.3,  // Bloom yoğunluğu
+    0.8,  // Bloom radius
+    1.25  // Bloom threshold
 );
-composer.addPass(bloomPass);
+
+// SSAO pass oluşturma
+const ssaoPass = new SSAOPass(scene, camera, window.innerWidth, window.innerHeight);
+
+// Parametre ayarları
+ssaoPass.kernelRadius = 8; // AO etkisinin yayılma miktarı (daha yüksek değer daha fazla yayılma)
+ssaoPass.minDistance = 0.005; // AO etkisinin en düşük mesafesi
+ssaoPass.maxDistance = 0.01;   // AO etkisinin en yüksek mesafesi
+
+// Composer'a ekleyin
 
 
-const fxaaPass = new ShaderPass(FXAAShader);
-fxaaPass.material.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
-composer.addPass(fxaaPass);
+const options = {
+    enableSSAO: true // Başlangıçta SSAO etkin
+};
+// GUI'ye bir buton ekleyin
+// gui.add(options, 'enableSSAO').name('Toggle SSAO').onChange(function(value) {
+//     ssaoPass.enabled = value; // SSAO pass'in aktif olup olmadığını kontrol eder
+// });
+
 
 const outputPass = new OutputPass();
-composer.addPass( outputPass );
 
+
+composer.addPass( renderPass );
+composer.addPass(ssaaRenderPass);
+composer.addPass(ssaoPass);
+composer.addPass(bloomPass);
+composer.addPass(outputPass );
 
 Update();
 
 function Update() {
     directionalLightHelper.update();
     deskSpotLightHelper.update();
+    highlightSpotLighthelper.update();
+    spotlight1Helper.update();
+    spotlight2Helper.update();
 
     scene.getObjectByName("directionalLight").target = scene.getObjectByName("box1");
     // cssRenderer.render(cssScene, camera);
     composer.render();
+    // renderer.render(scene,camera);
+
     // controls.update();
     // console.log(camera.position);
     // console.log(camera.rotation);
     const t = (clock.getElapsedTime() % 20) / 20;
     const pos = path.getPointAt(t);
     scene.getObjectByName("directionalLight").position.copy(pos);
-    
-    // console.log(directionalLight.intensity);
+
     if (t < 0.25) {
         const progress = t / 0.25;  // 0 ile 0.25 arasındaki t'yi normalize et
 
@@ -349,6 +505,7 @@ function onMouseDown(event) {
         if (intersects.length > 0) {
             if(canMoveCamera && isCameraBase) {
                 if(intersects[0].object.name == "htmlPlane") {
+                    lockSpotlight1 = true;
                     canShowOutline = false;
                     canMoveCamera = false;
                     moveCameratoScreen();
@@ -366,6 +523,7 @@ function onMouseDown(event) {
             }
             else if(canMoveCamera && !isCameraBase) {
                 canMoveCamera = false;
+                lockSpotlight1 = false;
                 moveCameratoBase();
             }
             else{
@@ -388,10 +546,30 @@ function onMouseMove(event) {
     var intersects = raycaster.intersectObjects(scene.children, true);
     if (intersects.length > 0) {
         if(intersects[0].object.name == "htmlPlane" && canShowOutline) {
-            // console.log(intersects[0].object.name);
+            spotlight1.visible = true;             
             outlineMesh.visible = true;
         }
+        else if(intersects[0].object.name == "githubCube") {
+            // bokehPass.enabled = true; // Bokeh efektini aktif et
+            spotlight3.visible = false;
+            spotlight4.visible = false;
+            spotlight2.visible = true;
+        }
+        else if(intersects[0].object.name == "linkedinCube") {
+            spotlight2.visible = false;
+            spotlight4.visible = false;
+            spotlight3.visible = true;
+        }
+        else if(intersects[0].object.name == "itchioCube") {
+            spotlight3.visible = false;
+            spotlight2.visible = false;
+            spotlight4.visible = true;
+        }
         else{
+            if(!lockSpotlight1) spotlight1.visible = false; 
+            spotlight2.visible = false;
+            spotlight3.visible = false;
+            spotlight4.visible = false;
             outlineMesh.visible = false;
         }
     }
@@ -428,22 +606,22 @@ function loadModel(path, onLoad) {
 
 function createAmbientLightSource() {
     roomAmbientLight = new THREE.AmbientLight(roomAmbientLightColor.color, 1);
-    gui.addFolder("AmbientLight");
-    gui.addColor(roomAmbientLightColor, "color").onChange(function (colorVal) {
-        roomAmbientLight.Color = new THREE.Color(colorVal);
-    })
-    gui.add(roomAmbientLight.position, "x", -100, 100).step(0.1);
-    gui.add(roomAmbientLight.position, "y", -100, 100).step(0.1);
-    gui.add(roomAmbientLight.position, "z", -100, 100).step(0.1);
+    // gui.addFolder("AmbientLight");
+    // gui.addColor(roomAmbientLightColor, "color").onChange(function (colorVal) {
+    //     roomAmbientLight.Color = new THREE.Color(colorVal);
+    // })
+    // gui.add(roomAmbientLight.position, "x", -100, 100).step(0.1);
+    // gui.add(roomAmbientLight.position, "y", -100, 100).step(0.1);
+    // gui.add(roomAmbientLight.position, "z", -100, 100).step(0.1);
 
     // scene.add(roomAmbientLight);
 }
 function createDirectionalLight(name) {
-    directionalLight = new THREE.DirectionalLight(0xffa95c, 5);
+    directionalLight = new THREE.DirectionalLight(0xA82F01, 5);
     directionalLight.castShadow = true;
     directionalLight.shadow.bias = -0.0001;
-    directionalLight.shadow.mapSize.width = 1024 * 4;
-    directionalLight.shadow.mapSize.height = 1024 * 4;
+    directionalLight.shadow.mapSize.width = 1024 * 8;
+    directionalLight.shadow.mapSize.height = 1024 * 8;
     directionalLight.shadow.camera.left = -200;
     directionalLight.shadow.camera.right = 200;
     directionalLight.shadow.camera.top = 200;
@@ -453,17 +631,17 @@ function createDirectionalLight(name) {
 
     directionalLight.position.set(0, 65, -60);
     directionalLight.name = name;
-    gui.addFolder("DirectionalLight");
-    gui.addColor(directionalLightColor, "color").onChange(function (colorVal) {
-        directionalLight.color = new THREE.Color(colorVal);
-    })
-    gui.add(directionalLight, "intensity", 0, 100).step(0.1);
-    gui.add(directionalLight.position, "x", -100, 100).step(0.1);
-    gui.add(directionalLight.position, "y", -100, 100).step(0.1);
-    gui.add(directionalLight.position, "z", -100, 100).step(0.1);
+    // gui.addFolder("DirectionalLight");
+    // gui.addColor(directionalLightColor, "color").onChange(function (colorVal) {
+    //     directionalLight.color = new THREE.Color(colorVal);
+    // })
+    // gui.add(directionalLight, "intensity", 0, 100).step(0.1);
+    // gui.add(directionalLight.position, "x", -100, 100).step(0.1);
+    // gui.add(directionalLight.position, "y", -100, 100).step(0.1);
+    // gui.add(directionalLight.position, "z", -100, 100).step(0.1);
 
     directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight);
-    scene.add(directionalLightHelper)
+    // scene.add(directionalLightHelper)
     var shadowCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
     // scene.add(shadowCameraHelper);
     scene.add(directionalLight);
@@ -471,14 +649,14 @@ function createDirectionalLight(name) {
 function createPointLightSource() {
     roomPointLight = new THREE.PointLight(roomPointLightColor.color, 1);
     roomPointLight.name = "pointLight";
-    gui.addFolder("RoomPointLight");
-    gui.addColor(roomPointLightColor, "color").onChange(function (colorVal) {
-        roomPointLight.color = new THREE.Color(colorVal);
-    });
-    gui.add(roomPointLight, "intensity", 0, 100).step(0.1);
-    gui.add(roomPointLight.position, "x", -100, 100).step(0.1);
-    gui.add(roomPointLight.position, "y", -100, 100).step(0.1);
-    gui.add(roomPointLight.position, "z", -100, 100).step(0.1);
+    // gui.addFolder("RoomPointLight");
+    // gui.addColor(roomPointLightColor, "color").onChange(function (colorVal) {
+    //     roomPointLight.color = new THREE.Color(colorVal);
+    // });
+    // gui.add(roomPointLight, "intensity", 0, 100).step(0.1);
+    // gui.add(roomPointLight.position, "x", -100, 100).step(0.1);
+    // gui.add(roomPointLight.position, "y", -100, 100).step(0.1);
+    // gui.add(roomPointLight.position, "z", -100, 100).step(0.1);
     var helper = new THREE.PointLightHelper(roomPointLight);
     helper.name = "pointLightHelper";
     scene.add(helper);
@@ -488,21 +666,21 @@ function createPointLightSource() {
 }
 function createHemiLight() {
     hemiLight = new THREE.HemisphereLight(0xffeeb1, 0x080820, 0.5);
-    gui.addFolder("HemiLight");
-    gui.addColor(hemilighColor, "color").onChange(function (colorVal) {
-        hemiLight.color = new THREE.Color(colorVal);
-    });
-    gui.add(hemiLight, "intensity", 0, 10).step(0.01);
-    gui.add(hemiLight.position, "x", -100, 100).step(0.1);
-    gui.add(hemiLight.position, "y", -100, 100).step(0.1);
-    gui.add(hemiLight.position, "z", -100, 100).step(0.1);
+    // gui.addFolder("HemiLight");
+    // gui.addColor(hemilighColor, "color").onChange(function (colorVal) {
+    //     hemiLight.color = new THREE.Color(colorVal);
+    // });
+    // gui.add(hemiLight, "intensity", 0, 10).step(0.01);
+    // gui.add(hemiLight.position, "x", -100, 100).step(0.1);
+    // gui.add(hemiLight.position, "y", -100, 100).step(0.1);
+    // gui.add(hemiLight.position, "z", -100, 100).step(0.1);
     var helper = new THREE.HemisphereLightHelper(hemiLight);
     helper.name = "hemispherelight";
     scene.add(helper);
 
     scene.add(hemiLight);
 }
-function createSpotLight() {
+function createSpotLight(name, target) {
     var spotLight = new THREE.SpotLight(0xFF9800, 0);  // Işık rengi ve yoğunluk
     spotLight.castShadow = true;
 
@@ -511,7 +689,6 @@ function createSpotLight() {
     spotLight.penumbra = 0.1;       // Yumuşak kenar (0 = keskin, 1 = çok yumuşak)
     spotLight.decay = 2;            // Mesafeye bağlı parlaklık düşüşü
     spotLight.distance = 20;       // Işığın etkili olduğu mesafe
-    spotLight.position.set(18, 19, -53);  // Işığın pozisyonu
 
     spotLight.shadow.mapSize.width = 1024 * 2;  // Gölge çözünürlüğü
     spotLight.shadow.mapSize.height = 1024 * 2;
@@ -519,31 +696,23 @@ function createSpotLight() {
     spotLight.shadow.camera.far = 200;          // Gölge kamerası uzaklık
     spotLight.shadow.camera.fov = 30;           // Gölge kamerasının görüş açısı
 
-    // Işık hedefi (nereye yönlenecek)
-    var target = new THREE.Object3D();
-    target.position.set(-100, -50.6,0);  // Hedef pozisyonu
-    scene.add(target);
-    spotLight.target = target;     // SpotLight'ı hedefe yönlendir
-
     // GUI kontrolleri
-    var spotLightFolder = gui.addFolder("SpotLight");
-    spotLightFolder.addColor({ color: spotLight.color.getHex() }, "color").onChange(function (colorVal) {
-        spotLight.color.set(colorVal);
-    });
-    spotLightFolder.add(spotLight, "intensity", 0, 100).step(0.1);
-    spotLightFolder.add(spotLight, "angle", 0, Math.PI / 2).step(0.01);
-    spotLightFolder.add(spotLight, "penumbra", 0, 1).step(0.01);
-    spotLightFolder.add(spotLight.position, "x", -100, 100).step(0.1);
-    spotLightFolder.add(spotLight.position, "y", -100, 100).step(0.1);
-    spotLightFolder.add(spotLight.position, "z", -100, 100).step(0.1);
-    spotLightFolder.add(target.position, "x", -100, 100).step(0.1);
-    spotLightFolder.add(target.position, "y", -100, 100).step(0.1);
-    spotLightFolder.add(target.position, "z", -100, 100).step(0.1);
+    // var spotLightFolder = gui.addFolder(name);
+    // spotLightFolder.addColor({ color: spotLight.color.getHex() }, "color").onChange(function (colorVal) {
+    //     spotLight.color.set(colorVal);
+    // });
+    // spotLightFolder.add(spotLight, "intensity", 0, 100).step(0.1);
+    // spotLightFolder.add(spotLight, "angle", 0, Math.PI / 2).step(0.01);
+    // spotLightFolder.add(spotLight, "penumbra", 0, 1).step(0.01);
+    // spotLightFolder.add(spotLight.position, "x", -100, 100).step(0.1);
+    // spotLightFolder.add(spotLight.position, "y", -100, 100).step(0.1);
+    // spotLightFolder.add(spotLight.position, "z", -100, 100).step(0.1);
+    // spotLightFolder.add(target.position, "x", -100, 100).step(0.1);
+    // spotLightFolder.add(target.position, "y", -100, 100).step(0.1);
+    // spotLightFolder.add(target.position, "z", -100, 100).step(0.1);
 
 
-    // SpotLight için helper (görsel rehber)
-    deskSpotLightHelper = new THREE.SpotLightHelper(spotLight);
-    // scene.add(deskSpotLightHelper);
+
 
     // Spot ışığını sahneye ekle
     scene.add(spotLight);
