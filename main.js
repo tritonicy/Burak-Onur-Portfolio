@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GUI } from 'dat.gui';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+// import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { InstancedMesh, SpotLightHelper, step } from 'three/webgpu';
