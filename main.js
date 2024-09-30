@@ -1,23 +1,23 @@
 import * as THREE from 'three';
-import { GUI } from 'dat.gui';
+// import { GUI } from 'dat.gui';
 // import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { InstancedMesh, SpotLightHelper, step } from 'three/webgpu';
+// import { InstancedMesh, SpotLightHelper, step } from 'three/webgpu';
 import gsap from 'gsap';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry} from 'three/addons/geometries/TextGeometry.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
+// import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { BokehShader } from 'three/examples/jsm/shaders/BokehShader.js';
+// import { BokehShader } from 'three/examples/jsm/shaders/BokehShader.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+// import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { SSAARenderPass } from 'three/examples/jsm/postprocessing/SSAARenderPass.js';
-import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js';
+// import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js';
 
 
 var renderer;
