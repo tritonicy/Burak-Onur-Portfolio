@@ -14,8 +14,8 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 // import { BokehShader } from 'three/examples/jsm/shaders/BokehShader.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
-// import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
-// import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { SSAARenderPass } from 'three/examples/jsm/postprocessing/SSAARenderPass.js';
 // import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js';
 
@@ -259,7 +259,7 @@ clock = new THREE.Clock();
 
 
 const textureLoader = new THREE.TextureLoader();
-const texture = textureLoader.load('pages/img/Screenshot_4.png');
+const texture = textureLoader.load('./assets/img/Screenshot_4.png');
 texture.minFilter = THREE.LinearFilter;
 texture.magFilter = THREE.NearestFilter;
 const material = new THREE.MeshStandardMaterial({ map: texture });
@@ -379,7 +379,12 @@ let spotLightAnim3 = animateSpotLightIntensity(deskSpotLight, 1000, 0.5, 0.1);
 let spotLightAnim4 = animateSpotLightIntensity(deskSpotLight, 0, 0, 1);
 
 // buradan sonrası post processing
-const composer = new EffectComposer( renderer );
+const renderTarget = new THREE.WebGLRenderTarget(
+    window.innerWidth,
+    window.innerHeight,
+    { samples: 4 } // 4x MSAA uygulamak için örnek sayısını belirtin
+);
+const composer = new EffectComposer( renderer , renderTarget);
 
 const renderPass = new RenderPass( scene, camera );
 
@@ -387,7 +392,7 @@ const renderPass = new RenderPass( scene, camera );
 // SSAA Render Pass oluşturun
 const ssaaRenderPass = new SSAARenderPass(scene, camera, 0x000000, 0);
 // Örnekleme seviyesini ayarlayın
-ssaaRenderPass.sampleLevel = 2; // SSAA örnekleme seviyesi (daha yüksek değerler daha kaliteli ama daha yavaş)
+ssaaRenderPass.sampleLevel = 1; // SSAA örnekleme seviyesi (daha yüksek değerler daha kaliteli ama daha yavaş)
 // sampleLevel = 2 veya 4 tipik değerlerdir, ancak 8 ve 16 gibi daha yüksek değerler kaliteyi artırabilir.
 
 
@@ -401,6 +406,10 @@ const bloomPass = new UnrealBloomPass(
 
 // SSAO pass oluşturma
 const ssaoPass = new SSAOPass(scene, camera, window.innerWidth, window.innerHeight);
+
+const fxaaPass = new ShaderPass(FXAAShader);
+const pixelRatio = renderer.getPixelRatio();
+fxaaPass.material.uniforms['resolution'].value.set(1 / (window.innerWidth * pixelRatio), 1 / (window.innerHeight * pixelRatio));
 
 // Parametre ayarları
 ssaoPass.kernelRadius = 8; // AO etkisinin yayılma miktarı (daha yüksek değer daha fazla yayılma)
@@ -423,7 +432,8 @@ const outputPass = new OutputPass();
 
 
 composer.addPass( renderPass );
-composer.addPass(ssaaRenderPass);
+// composer.addPass(ssaaRenderPass);
+// composer.addPass(fxaaPass);
 composer.addPass(ssaoPass);
 composer.addPass(bloomPass);
 composer.addPass(outputPass );
