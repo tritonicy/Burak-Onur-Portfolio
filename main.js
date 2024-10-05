@@ -5,12 +5,12 @@ import * as THREE from 'three';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 // import { InstancedMesh, SpotLightHelper, step } from 'three/webgpu';
 import gsap from 'gsap';
-import { FontLoader } from 'three/addons/loaders/FontLoader.js';
-import { TextGeometry} from 'three/addons/geometries/TextGeometry.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 // import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 // import { BokehShader } from 'three/examples/jsm/shaders/BokehShader.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { SSAOPass } from 'three/examples/jsm/postprocessing/SSAOPass.js';
@@ -117,7 +117,7 @@ window.addEventListener("resize", function () {
 });
 
 // scene modeli
-loadModel('models/12/untitled.gltf', function (model) {
+loadModel('./assets/12/untitled.gltf', function (model) {
     model.scale.set(5,5,5);
     model.position.set(0, 0, 5);
     model.rotation.y = - Math.PI/2;
@@ -771,32 +771,51 @@ function moveCameratoBase() {
     })
 }
 
-function LoadText(text, height, size, x,y,z) {
+function LoadText(text, height, size, x, y, z) {
     const fontloader = new FontLoader();
-    fontloader.load('node_modules/three/examples/fonts/droid/droid_sans_bold.typeface.json', (droidfont) => {
-        const textGeometry = new TextGeometry(text, {
-            height: height,
-            size: size,
-            font: droidfont,
-            curveSegments: 12,
-            bevelEnabled: true,      // Adds a bevel to the text
-            bevelThickness: 0.5,     // Thickness of the bevel
-            bevelSize: 0.2,       // How far the bevel reaches inside the text
-        });
-        const textureMaterial = new THREE.MeshStandardMaterial({
-            color: 0x6B8E23,
-            roughness: 0.2, // Daha mat bir görünüm için
-            metalness: 0.8, // Metalik görünümü azaltın   
-            emissive: 0xFFD700,   // Metnin yaydığı ışığı kontrol eder, düşük tutarak parlaklığı azaltabilirsin
-            emissiveIntensity: 0.01 // Emissive etkisini daha az belirgin yapar
-        })
-        const textMesh = new THREE.Mesh(textGeometry, textureMaterial);
-        textMesh.position.set(x,y,z);
-        textMesh.name = text;
-        textMesh.rotation.y = -Math.PI / 2;
-        textMesh.castShadow = true;
-        textMesh.receiveShadow = true;
-        scene.add(textMesh);
-    })
+    
+    try {
+        fontloader.load(
+            './assets/droid/droid_sans_bold.typeface.json', 
+            (droidfont) => {
+                try {
+                    const textGeometry = new TextGeometry(text, {
+                        height: height,
+                        size: size,
+                        font: droidfont,
+                        curveSegments: 12,
+                        bevelEnabled: true,
+                        bevelThickness: 0.5,
+                        bevelSize: 0.2,
+                    });
+
+                    const textureMaterial = new THREE.MeshStandardMaterial({
+                        color: 0x6B8E23,
+                        roughness: 0.2,
+                        metalness: 0.8,
+                        emissive: 0xFFD700,
+                        emissiveIntensity: 0.01,
+                    });
+
+                    const textMesh = new THREE.Mesh(textGeometry, textureMaterial);
+                    textMesh.position.set(x, y, z);
+                    textMesh.name = text;
+                    textMesh.rotation.y = -Math.PI / 2;
+                    textMesh.castShadow = true;
+                    textMesh.receiveShadow = true;
+                    
+                    scene.add(textMesh);
+                } catch (geometryError) {
+                    console.error("Error while creating text geometry or material:", geometryError);
+                }
+            },
+            undefined, // Optional onProgress callback
+            (error) => {
+                console.error("Error loading the font:", error);
+            }
+        );
+    } catch (loadError) {
+        console.error("FontLoader encountered an error:", loadError);
+    }
 }
 

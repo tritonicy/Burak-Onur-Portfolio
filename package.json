@@ -9,8 +9,11 @@
   "version": "1.0.0",
   "devDependencies": {
     "@eslint/js": "^9.9.1",
+    "@parcel/config-default": "^2.12.0",
+    "@types/three": "^0.169.0",
     "eslint": "^9.9.1",
-    "globals": "^15.9.0"
+    "globals": "^15.9.0",
+    "parcel-reporter-static-files-copy": "^1.5.3"
   },
   "scripts": {
     "lint": "eslint ./"
@@ -18,5 +21,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
-}
+  "description": "",
+  "staticFiles": {
+    "staticOutPath": "assets"
+  }
+
+} 
+
