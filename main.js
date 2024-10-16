@@ -259,7 +259,21 @@ clock = new THREE.Clock();
 
 
 const textureLoader = new THREE.TextureLoader();
-const texture = textureLoader.load('./assets/img/Screenshot_4.png');
+const texture = textureLoader.load(
+    './assets/img/Screenshot_115.png',
+    // Yükleme tamamlandığında
+    function (texture) {
+      console.log('Texture successfully loaded!');
+    },
+    // Yükleme sırasında
+    function (xhr) {
+      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    // Hata durumunda
+    function (error) {
+      console.error('An error happened while loading the texture:', error);
+    }
+  );
 texture.minFilter = THREE.LinearFilter;
 texture.magFilter = THREE.NearestFilter;
 const material = new THREE.MeshStandardMaterial({ map: texture });

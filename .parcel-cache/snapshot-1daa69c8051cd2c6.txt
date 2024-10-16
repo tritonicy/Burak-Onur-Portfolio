@@ -1,4 +1,4 @@
-10777
+10779
 41D:\jsprojects\Threejs-portfolio\style.css133717486109304445 0
 65D:\jsprojects\Threejs-portfolio\node_modules\type-fest\index.d.ts133723803560402335 0
 120D:\jsprojects\Threejs-portfolio\node_modules\three\src\renderers\shaders\ShaderChunk\envmap_common_pars_fragment.glsl.js133713833385123563 0
@@ -18,9 +18,9 @@
 62D:\jsprojects\Threejs-portfolio\node_modules\has-flag\index.js133713833373855150 0
 84D:\jsprojects\Threejs-portfolio\node_modules\caniuse-lite\data\features\dommatrix.js133723803198778998 0
 66D:\jsprojects\Threejs-portfolio\node_modules\three\src\nodes\pmrem133713833384337854 1
-36D:\jsprojects\Threejs-portfolio\dist133726110858545355 1
+36D:\jsprojects\Threejs-portfolio\dist133735826768781442 1
 88D:\jsprojects\Threejs-portfolio\node_modules\three\src\extras\curves\CubicBezierCurve.js133713833382467304 0
-95D:\jsprojects\Threejs-portfolio\dist\png-transparent-itch-io-brands-icon-thumbnail.9d2ec538.png133726110846566275 0
+95D:\jsprojects\Threejs-portfolio\dist\png-transparent-itch-io-brands-icon-thumbnail.9d2ec538.png133735826759334386 0
 64D:\jsprojects\Threejs-portfolio\node_modules\deep-is\.travis.yml133713833368673103 0
 93D:\jsprojects\Threejs-portfolio\node_modules\css-select\lib\pseudo-selectors\pseudos.d.ts.map133723803562120198 0
 67D:\jsprojects\Threejs-portfolio\node_modules\semver\functions\eq.js133723803194543723 0
@@ -103,7 +103,7 @@
 109D:\jsprojects\Threejs-portfolio\node_modules\html2canvas\dist\lib\css\property-descriptors\font-weight.js.map133713833374636644 0
 55D:\jsprojects\Threejs-portfolio\node_modules\nullthrows133723803193902582 1
 66D:\jsprojects\Threejs-portfolio\node_modules\dat.gui\src\dat\color133713833368557844 1
-39D:\jsprojects\Threejs-portfolio\main.js133726105525800242 0
+39D:\jsprojects\Threejs-portfolio\main.js133735826458425486 0
 82D:\jsprojects\Threejs-portfolio\node_modules\@parcel\package-manager\test\fixtures133723803195403895 1
 42D:\jsprojects\Threejs-portfolio\Montserrat133717486091373073 1
 88D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\libs\mmdparser.module.js133713833380123439 0
@@ -144,7 +144,7 @@
 98D:\jsprojects\Threejs-portfolio\node_modules\@types\three\src\nodes\functions\ShadowMaskModel.d.ts133721891549920130 0
 89D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\shaders\VignetteShader.js133713833381842332 0
 86D:\jsprojects\Threejs-portfolio\node_modules\eslint\lib\rules\prefer-regex-literals.js133721892267823646 0
-41D:\jsprojects\Threejs-portfolio\README.md133717486092116841 0
+41D:\jsprojects\Threejs-portfolio\README.md133735718058446506 0
 58D:\jsprojects\Threejs-portfolio\node_modules\svgo\lib\svgo133723803561334355 1
 59D:\jsprojects\Threejs-portfolio\node_modules\domelementtype133723803559641322 1
 72D:\jsprojects\Threejs-portfolio\node_modules\@types\three\src\nodes\math133721891550386041 1
@@ -189,6 +189,11 @@
 109D:\jsprojects\Threejs-portfolio\node_modules\@parcel\optimizer-htmlnano\node_modules\csso\lib\clean\Atrule.js133723803559844561 0
 69D:\jsprojects\Threejs-portfolio\node_modules\weak-lru-cache\README.md133723803194196685 0
 93D:\jsprojects\Threejs-portfolio\node_modules\@types\three\examples\jsm\libs\stats.module.d.ts133721891540836825 0
+66D:\jsprojects\Threejs-portfolio\node_modules\gsap\src\CSSPlugin.js133713833373382290 0
+63D:\jsprojects\Threejs-portfolio\node_modules\type-check\LICENSE133713833386311788 0
+61D:\jsprojects\Threejs-portfolio\static\img\Screenshot_115.png133735810146784128 0
+95D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\postprocessing\TAARenderPass.js133713833381529798 0
+76D:\jsprojects\Threejs-portfolio\node_modules\@parcel\workers\src\cpuCount.js133723803194750243 0
 108D:\jsprojects\Threejs-portfolio\node_modules\@parcel\source-map\parcel_sourcemap_wasm\dist-node\package.json133723803195056404 0
 81D:\jsprojects\Threejs-portfolio\node_modules\eslint\lib\rules\no-extend-native.js133721892264620139 0
 66D:\jsprojects\Threejs-portfolio\node_modules\msgpackr\package.json133723803195253333 0
@@ -199,7 +204,7 @@
 69D:\jsprojects\Threejs-portfolio\node_modules\safe-buffer\package.json133723803193559378 0
 64D:\jsprojects\Threejs-portfolio\node_modules\svgo\lib\types.d.ts133723803561388161 0
 44D:\jsprojects\Threejs-portfolio\static\droid133723808294823437 1
-42D:\jsprojects\Threejs-portfolio\static\img133726084863082152 1
+42D:\jsprojects\Threejs-portfolio\static\img133735826386072658 1
 84D:\jsprojects\Threejs-portfolio\node_modules\eslint\lib\rules\no-warning-comments.js133721892267098483 0
 83D:\jsprojects\Threejs-portfolio\node_modules\three\src\nodes\utils\ReflectorNode.js133713833384492911 0
 95D:\jsprojects\Threejs-portfolio\node_modules\@types\three\examples\jsm\misc\MorphBlendMesh.d.ts133721891542441409 0
@@ -209,14 +214,14 @@
 72D:\jsprojects\Threejs-portfolio\node_modules\eslint\lib\rules\no-with.js133721892267098483 0
 83D:\jsprojects\Threejs-portfolio\static\12\textures\M_TrashCan_metallicRoughness.png133717486099311577 0
 93D:\jsprojects\Threejs-portfolio\node_modules\three\src\nodes\lighting\DirectionalLightNode.js133713833384182715 0
-120D:\jsprojects\Threejs-portfolio\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\common\OffsetToLocation.js133723803563139103 0
-68D:\jsprojects\Threejs-portfolio\node_modules\domutils\lib\helpers.js133723803558800493 0
-85D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\curves\CurveExtras.js133713833379183335 0
-90D:\jsprojects\Threejs-portfolio\node_modules\@types\three\src\nodes\core\NodeFunction.d.ts133721891548530208 0
-79D:\jsprojects\Threejs-portfolio\node_modules\css-tree\lib\syntax\node\Atrule.js133723803563679465 0
 69D:\jsprojects\Threejs-portfolio\node_modules\js-yaml\lib\type\null.js133713833376685806 0
 71D:\jsprojects\Threejs-portfolio\node_modules\utility-types\package.json133723803194056270 0
 76D:\jsprojects\Threejs-portfolio\node_modules\caniuse-lite\data\regions\NG.js133723803201388612 0
+120D:\jsprojects\Threejs-portfolio\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\common\OffsetToLocation.js133723803563139103 0
+85D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\curves\CurveExtras.js133713833379183335 0
+68D:\jsprojects\Threejs-portfolio\node_modules\domutils\lib\helpers.js133723803558800493 0
+90D:\jsprojects\Threejs-portfolio\node_modules\@types\three\src\nodes\core\NodeFunction.d.ts133721891548530208 0
+79D:\jsprojects\Threejs-portfolio\node_modules\css-tree\lib\syntax\node\Atrule.js133723803563679465 0
 96D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\libs\rhino3dm\rhino3dm.module.js133713833380279731 0
 74D:\jsprojects\Threejs-portfolio\node_modules\three\src\lights\SpotLight.js133713833382779818 0
 63D:\jsprojects\Threejs-portfolio\node_modules\find-up\index.d.ts133713833372444529 0
@@ -290,8 +295,8 @@
 70D:\jsprojects\Threejs-portfolio\node_modules\@swc\helpers\src\_set.mjs133723803566485648 0
 84D:\jsprojects\Threejs-portfolio\node_modules\@parcel\core\src\dumpGraphToGraphViz.js133723803196061439 0
 77D:\jsprojects\Threejs-portfolio\node_modules\entities\lib\decode_codepoint.js133723803558616476 0
-78D:\jsprojects\Threejs-portfolio\static\12\textures\Wood_specularGlossiness.png133717486099692226 0
 50D:\jsprojects\Threejs-portfolio\static\12\textures133723805461869502 1
+78D:\jsprojects\Threejs-portfolio\static\12\textures\Wood_specularGlossiness.png133717486099692226 0
 95D:\jsprojects\Threejs-portfolio\node_modules\css-select\node_modules\entities\lib\esm\escape.js133723803560476668 0
 81D:\jsprojects\Threejs-portfolio\node_modules\three\src\nodes\display\BloomNode.js133713833383830970 0
 77D:\jsprojects\Threejs-portfolio\node_modules\.vite\deps\chunk-C6NIXSBQ.js.map133723702104710804 0
@@ -1370,6 +1375,7 @@
 99D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\shaders\LuminosityHighPassShader.js133713833381842332 0
 60D:\jsprojects\Threejs-portfolio\node_modules\posthtml-parser133723803559453701 1
 67D:\jsprojects\Threejs-portfolio\node_modules\css-tree\cjs\generator133723803563382133 1
+54D:\jsprojects\Threejs-portfolio\dist\index.813495d2.js133735826768513621 0
 78D:\jsprojects\Threejs-portfolio\models\08\textures\leather_white_baseColor.jpg133713833337513328 0
 113D:\jsprojects\Threejs-portfolio\node_modules\three\src\renderers\shaders\ShaderChunk\lights_fragment_maps.glsl.js133713833385278809 0
 56D:\jsprojects\Threejs-portfolio\node_modules\yocto-queue133713833386833352 1
@@ -1954,8 +1960,6 @@
 88D:\jsprojects\Threejs-portfolio\node_modules\@parcel\workers\src\process\ProcessChild.js133723803195283324 0
 94D:\jsprojects\Threejs-portfolio\node_modules\csso\node_modules\css-tree\lib\generator\index.js133723803564267863 0
 90D:\jsprojects\Threejs-portfolio\node_modules\cosmiconfig\dist\canUseDynamicImport.d.ts.map133723803560486859 0
-66D:\jsprojects\Threejs-portfolio\node_modules\gsap\src\CSSPlugin.js133713833373382290 0
-63D:\jsprojects\Threejs-portfolio\node_modules\type-check\LICENSE133713833386311788 0
 81D:\jsprojects\Threejs-portfolio\node_modules\eslint\lib\rules\no-await-in-loop.js133721892263790691 0
 84D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\loaders\BVHLoader.js133713833380746208 0
 103D:\jsprojects\Threejs-portfolio\node_modules\json-stable-stringify-without-jsonify\example\value_cmp.js133713833376825871 0
@@ -3192,7 +3196,6 @@
 98D:\jsprojects\Threejs-portfolio\node_modules\three\src\materials\nodes\MeshPhysicalNodeMaterial.js133713833383147170 0
 90D:\jsprojects\Threejs-portfolio\node_modules\@swc\helpers\cjs\_assert_this_initialized.cjs133723803563954606 0
 93D:\jsprojects\Threejs-portfolio\node_modules\three\src\materials\nodes\MeshSSSNodeMaterial.js133713833383152520 0
-58D:\jsprojects\Threejs-portfolio\dist\index.2ffeced1.js.map133726110858425879 0
 83D:\jsprojects\Threejs-portfolio\node_modules\caniuse-lite\data\features\temporal.js133723803202780624 0
 80D:\jsprojects\Threejs-portfolio\node_modules\htmlnano\lib\modules\minifyUrls.cjs133723803560666707 0
 98D:\jsprojects\Threejs-portfolio\node_modules\three\src\materials\nodes\MeshStandardNodeMaterial.js133713833383157873 0
@@ -3698,8 +3701,6 @@
 82D:\jsprojects\Threejs-portfolio\node_modules\@swc\helpers\src\_new_arrow_check.mjs133723803566385608 0
 71D:\jsprojects\Threejs-portfolio\node_modules\mdn-data\css\syntaxes.json133723803560910757 0
 90D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\postprocessing\SSAOPass.js133713833381529798 0
-95D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\postprocessing\TAARenderPass.js133713833381529798 0
-76D:\jsprojects\Threejs-portfolio\node_modules\@parcel\workers\src\cpuCount.js133723803194750243 0
 93D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\postprocessing\TexturePass.js133713833381529798 0
 95D:\jsprojects\Threejs-portfolio\node_modules\three\examples\jsm\interactive\InteractiveGroup.js133713833379496315 0
 64D:\jsprojects\Threejs-portfolio\node_modules\fill-range\index.js133723803193442951 0
@@ -4575,7 +4576,7 @@
 68D:\jsprojects\Threejs-portfolio\node_modules\node-addon-api\index.js133723803194882899 0
 117D:\jsprojects\Threejs-portfolio\node_modules\@parcel\optimizer-svgo\node_modules\css-tree\lib\syntax\config\walker.js133723803563622656 0
 81D:\jsprojects\Threejs-portfolio\node_modules\node-addon-api\napi-inl.deprecated.h133723803193999668 0
-78D:\jsprojects\Threejs-portfolio\dist\Montserrat-VariableFont_wght.c16ad322.ttf133726110846615846 0
+78D:\jsprojects\Threejs-portfolio\dist\Montserrat-VariableFont_wght.c16ad322.ttf133735826759384887 0
 65D:\jsprojects\Threejs-portfolio\node_modules\js-yaml\CHANGELOG.md133713833376372264 0
 66D:\jsprojects\Threejs-portfolio\node_modules\node-addon-api\napi.h133723803194569122 0
 92D:\jsprojects\Threejs-portfolio\node_modules\fast-json-stable-stringify\example\value_cmp.js133713833372289464 0
@@ -5026,7 +5027,7 @@
 105D:\jsprojects\Threejs-portfolio\node_modules\lightningcss-win32-x64-msvc\lightningcss.win32-x64-msvc.node133723803563244869 0
 85D:\jsprojects\Threejs-portfolio\node_modules\lightningcss-win32-x64-msvc\package.json133723803558606474 0
 82D:\jsprojects\Threejs-portfolio\node_modules\lightningcss-win32-x64-msvc\README.md133723803558790378 0
-59D:\jsprojects\Threejs-portfolio\dist\linkedinn.d626edec.png133726110846566275 0
+59D:\jsprojects\Threejs-portfolio\dist\linkedinn.d626edec.png133735826758528447 0
 65D:\jsprojects\Threejs-portfolio\node_modules\lightningcss\LICENSE133723803558378659 0
 70D:\jsprojects\Threejs-portfolio\node_modules\lightningcss\package.json133723803559996043 0
 83D:\jsprojects\Threejs-portfolio\node_modules\@eslint\config-array\dist\cjs\types.ts133713833365837579 0
@@ -7312,7 +7313,7 @@
 85D:\jsprojects\Threejs-portfolio\node_modules\@parcel\optimizer-svgo\node_modules\svgo133723803562873244 1
 117D:\jsprojects\Threejs-portfolio\node_modules\css-select\node_modules\entities\lib\generated\decode-data-html.d.ts.map133723803561075258 0
 115D:\jsprojects\Threejs-portfolio\node_modules\css-select\node_modules\entities\lib\generated\decode-data-html.js.map133723803561158795 0
-56D:\jsprojects\Threejs-portfolio\dist\github.711808d4.png133726110845700853 0
+56D:\jsprojects\Threejs-portfolio\dist\github.711808d4.png133735826759334386 0
 112D:\jsprojects\Threejs-portfolio\node_modules\css-select\node_modules\entities\lib\generated\decode-data-xml.d.ts133723803562248168 0
 70D:\jsprojects\Threejs-portfolio\node_modules\caniuse-lite\package.json133723803203847151 0
 116D:\jsprojects\Threejs-portfolio\node_modules\css-select\node_modules\entities\lib\generated\decode-data-xml.d.ts.map133723803561249753 0
@@ -8391,7 +8392,7 @@
 111D:\jsprojects\Threejs-portfolio\node_modules\@types\three\examples\jsm\shaders\ACESFilmicToneMappingShader.d.ts133721891543769675 0
 109D:\jsprojects\Threejs-portfolio\node_modules\@types\three\src\renderers\webgl\WebGLIndexedBufferRenderer.d.ts133721891551584121 0
 94D:\jsprojects\Threejs-portfolio\node_modules\@types\three\src\renderers\webgl\WebGLLights.d.ts133721891551584121 0
-46D:\jsprojects\Threejs-portfolio\dist\assets\12133726110859814079 1
+46D:\jsprojects\Threejs-portfolio\dist\assets\12133735826769461268 1
 95D:\jsprojects\Threejs-portfolio\node_modules\@types\three\src\renderers\webgl\WebGLObjects.d.ts133721891551584121 0
 99D:\jsprojects\Threejs-portfolio\node_modules\@types\three\src\renderers\webgl\WebGLRenderLists.d.ts133721891551740468 0
 102D:\jsprojects\Threejs-portfolio\node_modules\@parcel\runtime-js\src\helpers\browser\import-polyfill.js133723803560878229 0
@@ -9094,7 +9095,6 @@
 92D:\jsprojects\Threejs-portfolio\node_modules\@swc\helpers\cjs\_class_private_method_init.cjs133723803564192468 0
 91D:\jsprojects\Threejs-portfolio\node_modules\@swc\helpers\cjs\_class_private_method_set.cjs133723803564202548 0
 105D:\jsprojects\Threejs-portfolio\node_modules\@swc\helpers\cjs\_class_static_private_field_destructure.cjs133723803564212843 0
-82D:\jsprojects\Threejs-portfolio\node_modules\@parcel\utils\src\prettyDiagnostic.js133723803195901706 0
 102D:\jsprojects\Threejs-portfolio\node_modules\@swc\helpers\cjs\_class_static_private_field_spec_get.cjs133723803564223995 0
 98D:\jsprojects\Threejs-portfolio\node_modules\@swc\helpers\cjs\_class_static_private_method_get.cjs133723803564256445 0
 79D:\jsprojects\Threejs-portfolio\node_modules\@swc\helpers\cjs\_create_super.cjs133723803564299346 0
@@ -9213,6 +9213,7 @@
 76D:\jsprojects\Threejs-portfolio\node_modules\@parcel\utils\src\objectHash.js133723803195803595 0
 80D:\jsprojects\Threejs-portfolio\node_modules\@parcel\utils\src\parseCSSImport.js133723803195856115 0
 78D:\jsprojects\Threejs-portfolio\node_modules\@parcel\utils\src\prettifyTime.js133723803195890404 0
+82D:\jsprojects\Threejs-portfolio\node_modules\@parcel\utils\src\prettyDiagnostic.js133723803195901706 0
 77D:\jsprojects\Threejs-portfolio\node_modules\@parcel\utils\src\relativeUrl.js133723803195991246 0
 72D:\jsprojects\Threejs-portfolio\node_modules\@parcel\utils\src\stream.js133723803196101444 0
 75D:\jsprojects\Threejs-portfolio\node_modules\@parcel\utils\src\TapStream.js133723803196101444 0
@@ -10322,7 +10323,7 @@
 88D:\jsprojects\Threejs-portfolio\node_modules\@eslint-community\eslint-utils\package.json133713833365683710 0
 112D:\jsprojects\Threejs-portfolio\node_modules\@eslint-community\eslint-utils\node_modules\eslint-visitor-keys\lib133713833365683710 1
 121D:\jsprojects\Threejs-portfolio\node_modules\@eslint-community\eslint-utils\node_modules\eslint-visitor-keys\package.json133713833365683710 0
-59D:\jsprojects\Threejs-portfolio\dist\index.a156cd9f.css.map133726110858379072 0
+59D:\jsprojects\Threejs-portfolio\dist\index.a156cd9f.css.map133735826768659123 0
 118D:\jsprojects\Threejs-portfolio\node_modules\@eslint-community\eslint-utils\node_modules\eslint-visitor-keys\README.md133713833365683710 0
 121D:\jsprojects\Threejs-portfolio\node_modules\@eslint-community\eslint-utils\node_modules\eslint-visitor-keys\lib\index.js133713833365683710 0
 139D:\jsprojects\Threejs-portfolio\node_modules\@eslint-community\eslint-utils\node_modules\eslint-visitor-keys\dist\eslint-visitor-keys.d.cts133713833365683710 0
@@ -10585,7 +10586,7 @@
 50D:\jsprojects\Threejs-portfolio\models\11\textures133717486097356870 1
 55D:\jsprojects\Threejs-portfolio\models\11\untitled.gltf133717486098008594 0
 80D:\jsprojects\Threejs-portfolio\models\11\textures\beige_wall_001_specularf0.png133717486094117424 0
-47D:\jsprojects\Threejs-portfolio\dist\assets\img133726110859905743 1
+47D:\jsprojects\Threejs-portfolio\dist\assets\img133735826769564141 1
 77D:\jsprojects\Threejs-portfolio\models\11\textures\ComputerDesk_baseColor.png133717486092450375 0
 90D:\jsprojects\Threejs-portfolio\models\11\textures\laminate_floor_02_metallicRoughness.png133717486094282328 0
 79D:\jsprojects\Threejs-portfolio\models\11\textures\laminate_floor_02_normal.png133717486094282328 0
@@ -10629,7 +10630,7 @@
 50D:\jsprojects\Threejs-portfolio\models\09\textures133713833343609314 1
 54D:\jsprojects\Threejs-portfolio\models\09\untitled.bin133713833343922065 0
 55D:\jsprojects\Threejs-portfolio\models\09\untitled.gltf133713833343922065 0
-55D:\jsprojects\Threejs-portfolio\dist\index.a156cd9f.css133726110858179553 0
+55D:\jsprojects\Threejs-portfolio\dist\index.a156cd9f.css133735826768513621 0
 79D:\jsprojects\Threejs-portfolio\models\09\textures\beige_wall_001_baseColor.jpg133713833340951118 0
 80D:\jsprojects\Threejs-portfolio\models\09\textures\beige_wall_001_specularf0.png133713833341263580 0
 78D:\jsprojects\Threejs-portfolio\models\09\textures\Glass_metallicRoughness.png133713833340015863 0
@@ -10741,20 +10742,21 @@
 78D:\jsprojects\Threejs-portfolio\models\03\textues\system_monitor_baseColor.png133713833317333760 0
 86D:\jsprojects\Threejs-portfolio\models\03\textues\system_monitor_metallicRoughness.png133713833317490344 0
 79D:\jsprojects\Threejs-portfolio\models\03\textues\Wood_specularGlossiness-1.png133713833314358513 0
-43D:\jsprojects\Threejs-portfolio\dist\assets133726110859905743 1
-54D:\jsprojects\Threejs-portfolio\dist\index.2ffeced1.js133726110858179553 0
-55D:\jsprojects\Threejs-portfolio\dist\index.50d4b1f1.css133726110858179553 0
-59D:\jsprojects\Threejs-portfolio\dist\index.50d4b1f1.css.map133726110858379072 0
-47D:\jsprojects\Threejs-portfolio\dist\index.html133726110858179553 0
-54D:\jsprojects\Threejs-portfolio\dist\user.c35cb1e8.png133726110846566275 0
-49D:\jsprojects\Threejs-portfolio\dist\assets\droid133726110859905743 1
+43D:\jsprojects\Threejs-portfolio\dist\assets133735826769554071 1
+55D:\jsprojects\Threejs-portfolio\dist\index.50d4b1f1.css133735826768513621 0
+59D:\jsprojects\Threejs-portfolio\dist\index.50d4b1f1.css.map133735826768659123 0
+58D:\jsprojects\Threejs-portfolio\dist\index.813495d2.js.map133735826768691191 0
+47D:\jsprojects\Threejs-portfolio\dist\index.html133735826768513621 0
+54D:\jsprojects\Threejs-portfolio\dist\user.c35cb1e8.png133735826758528447 0
+49D:\jsprojects\Threejs-portfolio\dist\assets\droid133735826769544011 1
+66D:\jsprojects\Threejs-portfolio\dist\assets\img\Screenshot_115.png133735810146784128 0
 64D:\jsprojects\Threejs-portfolio\dist\assets\img\Screenshot_4.png133713833387474020 0
 82D:\jsprojects\Threejs-portfolio\dist\assets\droid\droid_sans_regular.typeface.json133713833378867789 0
 80D:\jsprojects\Threejs-portfolio\dist\assets\droid\droid_serif_bold.typeface.json133713833378867789 0
 83D:\jsprojects\Threejs-portfolio\dist\assets\droid\droid_serif_regular.typeface.json133713833378867789 0
 56D:\jsprojects\Threejs-portfolio\dist\assets\droid\NOTICE133713833378716527 0
 60D:\jsprojects\Threejs-portfolio\dist\assets\droid\README.txt133713833378716527 0
-55D:\jsprojects\Threejs-portfolio\dist\assets\12\textures133726110859728704 1
+55D:\jsprojects\Threejs-portfolio\dist\assets\12\textures133735826769441124 1
 60D:\jsprojects\Threejs-portfolio\dist\assets\12\untitled.gltf133717486102769837 0
 84D:\jsprojects\Threejs-portfolio\dist\assets\12\textures\beige_wall_001_baseColor.jpg133717486099692226 0
 92D:\jsprojects\Threejs-portfolio\dist\assets\12\textures\beige_wall_001_metallicRoughness.png133717486099776009 0
